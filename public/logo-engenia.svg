@@ -1,0 +1,19 @@
+<svg width="180" height="48" viewBox="0 0 180 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- ICON -->
+  <rect x="0" y="0" width="48" height="48" rx="14" fill="url(#grad)"/>
+
+  <path d="M14 30L24 14L34 30" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- TEXT -->
+  <text x="60" y="30" fill="white" font-size="20" font-family="Inter, Arial" font-weight="700">
+    EngenIA
+  </text>
+
+  <!-- GRADIENT -->
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="48" y2="48">
+      <stop stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+  </defs>
+</svg>

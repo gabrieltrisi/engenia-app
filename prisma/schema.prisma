@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+
+  users    User[]
+  clients  Client[]
+  projects Project[]
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  role      String
+  companyId String
+  createdAt DateTime @default(now())
+
+  company Company @relation(fields: [companyId], references: [id])
+}
+
+model Client {
+  id        String   @id @default(uuid())
+  name      String
+  email     String?
+  phone     String?
+  companyId String
+  createdAt DateTime @default(now())
+
+  company  Company   @relation(fields: [companyId], references: [id])
+  projects Project[]
+}
+
+model Project {
+  id              String    @id @default(uuid())
+  name            String
+  status          String
+  budget          Float
+  companyId       String
+  clientId        String
+  startDate       DateTime?
+  expectedEndDate DateTime?
+  createdAt       DateTime  @default(now())
+
+  company Company @relation(fields: [companyId], references: [id])
+  client  Client  @relation(fields: [clientId], references: [id])
+
+  budgets   Budget[]
+  proposals Proposal[]
+}
+
+model Budget {
+  id              String   @id @default(uuid())
+  name            String
+  description     String?
+  status          String   @default("DRAFT")
+  totalCost       Float
+  expectedRevenue Float?
+  marginPercent   Float?
+  projectId       String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  project Project      @relation(fields: [projectId], references: [id])
+  items   BudgetItem[]
+}
+
+model BudgetItem {
+  id        String   @id @default(uuid())
+  name      String
+  category  String
+  quantity  Float
+  unit      String
+  unitCost  Float
+  totalCost Float
+  budgetId  String
+  createdAt DateTime @default(now())
+
+  budget Budget @relation(fields: [budgetId], references: [id], onDelete: Cascade)
+}
+
+model Proposal {
+  id        String   @id @default(uuid())
+  title     String
+  value     Float
+  status    String
+  projectId String
+  createdAt DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id])
+}
